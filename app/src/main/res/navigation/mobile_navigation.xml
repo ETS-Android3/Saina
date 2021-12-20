@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_lessons">
+
+    <fragment
+        android:id="@+id/navigation_lessons"
+        android:name="com.dennis.saina.ui.Lessons.LessonsFragment"
+        android:label="@string/title_lessons"
+        tools:layout="@layout/fragment_lessons" >
+        <action
+            android:id="@+id/action_navigation_lessons_to_fragment_play_lesson_view2"
+            app:destination="@id/fragment_play_lesson_view" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_dashboard"
+        android:name="com.dennis.saina.ui.dashboard.DashboardFragment"
+        android:label="@string/title_dashboard"
+        tools:layout="@layout/fragment_dashboard" />
+
+    <fragment
+        android:id="@+id/navigation_notifications"
+        android:name="com.dennis.saina.ui.notifications.NotificationsFragment"
+        android:label="@string/title_notifications"
+        tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/fragment_play_lesson_view"
+        android:name="com.dennis.saina.fragment_play_lesson_view"
+        android:label="fragment_play_lesson_view"
+        tools:layout="@layout/fragment_play_lesson_view" />
+</navigation>
