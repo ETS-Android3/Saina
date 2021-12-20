@@ -88,6 +88,7 @@ public class LessonsFragment extends Fragment {
                 new RecyclerItemClickListener(getContext(), binding.dataList ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
                         Log.i("Hey","pos: "+position);
+                        //dummy comment
 
                     }
 
@@ -98,11 +99,7 @@ public class LessonsFragment extends Fragment {
         );
 
 
-
-        View root = binding.getRoot();
-
-
-        return root;
+        return binding.getRoot();
     }
 
     @Override
