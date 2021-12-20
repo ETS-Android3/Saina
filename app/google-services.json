@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "186889831734",
+    "project_id": "sign-language-videos-1fc8c",
+    "storage_bucket": "sign-language-videos-1fc8c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:186889831734:android:0a32ba74c0152af1ff9f97",
+        "android_client_info": {
+          "package_name": "com.dennis.saina"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "186889831734-99o254f6lv6d5t9igeiqot089gmjcnbg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChuD66w2e2r7_yq6MQeeOgkWlDUH3BXc4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "186889831734-99o254f6lv6d5t9igeiqot089gmjcnbg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
