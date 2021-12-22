@@ -87,8 +87,10 @@ public class LessonsFragment extends Fragment {
         binding.dataList.addOnItemTouchListener(
                 new RecyclerItemClickListener(getContext(), binding.dataList ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
-                        Log.i("Hey","pos: "+position);
+                        Log.i("Hey", "pos: " + position);
                         //dummy comment
+                        //Navigate to new view
+
 
                     }
 

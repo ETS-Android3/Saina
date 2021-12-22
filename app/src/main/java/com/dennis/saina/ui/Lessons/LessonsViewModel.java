@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class LessonsViewModel extends ViewModel implements RecyclerViewClickListener {
+public class LessonsViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
@@ -19,8 +19,5 @@ public class LessonsViewModel extends ViewModel implements RecyclerViewClickList
         return mText;
     }
 
-    @Override
-    public void recyclerViewListClicked(View v, int position) {
 
-    }
 }

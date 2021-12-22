@@ -9,11 +9,7 @@
         android:id="@+id/navigation_lessons"
         android:name="com.dennis.saina.ui.Lessons.LessonsFragment"
         android:label="@string/title_lessons"
-        tools:layout="@layout/fragment_lessons" >
-        <action
-            android:id="@+id/action_navigation_lessons_to_fragment_play_lesson_view2"
-            app:destination="@id/fragment_play_lesson_view" />
-    </fragment>
+        tools:layout="@layout/fragment_lessons" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
@@ -26,9 +22,4 @@
         android:name="com.dennis.saina.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
-    <fragment
-        android:id="@+id/fragment_play_lesson_view"
-        android:name="com.dennis.saina.fragment_play_lesson_view"
-        android:label="fragment_play_lesson_view"
-        tools:layout="@layout/fragment_play_lesson_view" />
 </navigation>
