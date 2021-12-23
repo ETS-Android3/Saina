@@ -47,19 +47,9 @@ public class LessonsFragment extends Fragment {
 
         binding = FragmentLessonsBinding.inflate(inflater, container, false);
 
-//        progressDialog=new ProgressDialog(this.getContext());
-//        progressDialog.setCancelable(false);
-//        progressDialog.setMessage("Fetching Data ...");
-//        progressDialog.show();
-
-
         lessonList = new ArrayList<>();
         db = FirebaseFirestore.getInstance();
-
-
         myAdapter = new MyAdapter(this.getActivity(), lessonList);
-
-
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(),
                 1, GridLayoutManager.HORIZONTAL, false);
 
@@ -86,38 +76,22 @@ public class LessonsFragment extends Fragment {
                 })
         );
 
+        ProgressDialog progressDialog = new ProgressDialog(getContext());
+        progressDialog.setCancelable(true);
+        progressDialog.setMessage("Fetching Data ...");
+        progressDialog.show();
 
-        LessonData.EventChangeListener(getContext(), myAdapter, lessonList);
+        Thread thread = new Thread() {
+            public void run() {
+                LessonData.EventChangeListener(getContext(), myAdapter, lessonList, progressDialog);
+            }
+        };
+        thread.start();
 
 
         return binding.getRoot();
     }
 
-//    private void EventChangeListener() {
-//        db.collection("ZSL").orderBy("Name", Query.Direction.ASCENDING)
-//                .addSnapshotListener((value, e) -> {
-//                    if (e != null) {
-////                            if(progressDialog.isShowing())
-////                                progressDialog.dismiss();
-//                        Log.e("Firestore error", e.getMessage());
-//                        return;
-//                    }
-//
-//                    for (DocumentChange dc : value.getDocumentChanges()) {
-//
-//                        if (dc.getType() == DocumentChange.Type.ADDED) {
-//                            //if data is added, populate our arrayList
-//
-//                            lessonList.add(dc.getDocument().toObject(Lesson.class));
-//
-//                        }
-//
-//                        myAdapter.notifyDataSetChanged();
-//                            if(progressDialog.isShowing())
-//                                progressDialog.dismiss();
-//                    }
-//                });
-//    }
 
     @Override
     public void onDestroyView() {

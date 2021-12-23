@@ -28,21 +28,16 @@ import java.util.Objects;
 public class ExerciseSplashFragment extends Fragment {
 
     FragmentExerciseSplashBinding binding;
-    ExercisesAdapter exercisesAdapter;
-    ArrayList<Lesson> lessonArrayList;
-    FirebaseFirestore db;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentExerciseSplashBinding.inflate(inflater, container, false);
-        exercisesAdapter = new ExercisesAdapter(getContext(), lessonArrayList);
-        lessonArrayList = new ArrayList<>();
 
-        db = FirebaseFirestore.getInstance();
 
         binding.startButton.setOnClickListener(v -> {
+
             NavController navController = Navigation.findNavController(requireActivity(),
                     R.id.nav_host_fragment_activity_main);
 

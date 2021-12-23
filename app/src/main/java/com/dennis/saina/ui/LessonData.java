@@ -15,44 +15,49 @@ import java.util.ArrayList;
 public class LessonData {
 
 
-    public LessonData(Context context) {
+    private LessonData() {
 
     }
 
 
-    public static void EventChangeListener(Context context, RecyclerView.Adapter adapter, ArrayList<Lesson> lessonArrayList) {
-
-        ProgressDialog progressDialog = new ProgressDialog(context);
-        progressDialog.setCancelable(true);
-        progressDialog.setMessage("Fetching Data ...");
-        progressDialog.show();
+    public static void EventChangeListener(Context context, RecyclerView.Adapter adapter, ArrayList<Lesson> lessonArrayList, ProgressDialog progressDialog) {
 
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Thread thread = new Thread() {
+            public void run() {
 
-        db.collection("ZSL").orderBy("Name", Query.Direction.ASCENDING)
-                .addSnapshotListener((value, e) -> {
-                    if (e != null) {
-                        if (progressDialog.isShowing())
-                            progressDialog.dismiss();
-                        Log.e("Firestore error", e.getMessage());
-                        return;
-                    }
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                    assert value != null;
-                    for (DocumentChange dc : value.getDocumentChanges()) {
+                db.collection("ZSL").orderBy("Name", Query.Direction.ASCENDING)
+                        .addSnapshotListener((value, e) -> {
+                            if (e != null) {
+                                if (progressDialog.isShowing())
+                                    progressDialog.dismiss();
+                                Log.e("Firestore error", e.getMessage());
+                                return;
+                            }
 
-                        if (dc.getType() == DocumentChange.Type.ADDED) {
-                            //if data is added, populate our arrayList
+                            assert value != null;
+                            for (DocumentChange dc : value.getDocumentChanges()) {
 
-                            lessonArrayList.add(dc.getDocument().toObject(Lesson.class));
+                                if (dc.getType() == DocumentChange.Type.ADDED) {
+                                    //if data is added, populate our arrayList
 
-                        }
+                                    lessonArrayList.add(dc.getDocument().toObject(Lesson.class));
 
-                        adapter.notifyDataSetChanged();
-                        if (progressDialog.isShowing())
-                            progressDialog.dismiss();
-                    }
-                });
+                                }
+
+                                adapter.notifyDataSetChanged();
+                                if (progressDialog.isShowing())
+                                    progressDialog.dismiss();
+                            }
+                        });
+            }
+        };
+        thread.start();
+
+
     }
+
+
 }
