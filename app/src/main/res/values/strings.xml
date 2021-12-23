@@ -9,4 +9,11 @@
     <string name="previous">previous</string>
     <string name="next">next</string>
     <string name="lessonimage">lessonImage</string>
+    <string name="exercise_splash_text">Start Exercises</string>
+    <string name="exercise_splash_start_button_text">Hell Yeah!</string>
+    <string name="exercise_splash_title_text">Ready for a challenge?</string>
+    <string name="title_exercise">Exercise</string>
+    <string name="quiz_question">What does the sign say?</string>
+    <string name="question_length_text">10 Questions in this quiz?</string>
+    <string name="i_m_ready">I\'m ready</string>
 </resources>

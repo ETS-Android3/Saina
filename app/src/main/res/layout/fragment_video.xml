@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_centerInParent="true"
     android:padding="50dp">
 
@@ -36,16 +36,15 @@
                 android:layout_marginTop="30dp"
                 android:text="@string/word_text"
                 android:textAlignment="center"
-                android:textSize="40sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/lessonImage"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
                 android:layout_gravity="center|center_horizontal|center_vertical"
                 android:contentDescription="@string/lessonimage"
-                android:src=""
                 app:srcCompat="@drawable/googleg_standard_color_18" />
 
             <LinearLayout

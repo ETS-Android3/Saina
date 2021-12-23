@@ -1,32 +1,44 @@
 package com.dennis.saina.ui.Lessons;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import com.dennis.saina.R;
 import com.dennis.saina.databinding.FragmentLessonsBinding;
-import com.dennis.saina.ui.Adapter;
+import com.dennis.saina.ui.Lesson;
+import com.dennis.saina.ui.LessonData;
+import com.dennis.saina.ui.adapters.ExercisesAdapter;
+import com.dennis.saina.ui.adapters.MyAdapter;
 import com.dennis.saina.ui.RecyclerItemClickListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class LessonsFragment extends Fragment {
 
-//    private LessonsViewModel lessonsViewModel;
+    //    private LessonsViewModel lessonsViewModel;
     private FragmentLessonsBinding binding;
-    private List<String> titles;
-    private List<Integer> images;
 
-    Adapter adapter;
+
+    private ArrayList<Lesson> lessonList;
+
+    MyAdapter myAdapter;
+    ExercisesAdapter exercisesAdapter;
+    FirebaseFirestore db;
+    ProgressDialog progressDialog;
+    LessonData lessonData;
+
+    Button exerciseBtn;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -35,58 +47,31 @@ public class LessonsFragment extends Fragment {
 
         binding = FragmentLessonsBinding.inflate(inflater, container, false);
 
-        titles=new ArrayList<>();
-        images=new ArrayList<>();
-
-        titles.add("First Item");
-        titles.add("Second Item");
-        titles.add("Third Item");
-        titles.add("Fourth Item");
-        titles.add("First Item");
-        titles.add("Second Item");
-        titles.add("Third Item");
-        titles.add("Fourth Item");
-        titles.add("First Item");
-        titles.add("Second Item");
-        titles.add("Third Item");
-        titles.add("Fourth Item");
-        titles.add("First Item");
-        titles.add("Second Item");
-        titles.add("Third Item");
-        titles.add("Fourth Item");
+//        progressDialog=new ProgressDialog(this.getContext());
+//        progressDialog.setCancelable(false);
+//        progressDialog.setMessage("Fetching Data ...");
+//        progressDialog.show();
 
 
-        images.add(R.drawable.ic_baseline_add_alert_24);
-        images.add(R.drawable.ic_baseline_add_task_24);
-        images.add(R.drawable.ic_baseline_airplanemode_active_24);
-        images.add(R.drawable.ic_baseline_airplay_24);
-        images.add(R.drawable.ic_baseline_add_alert_24);
-        images.add(R.drawable.ic_baseline_add_task_24);
-        images.add(R.drawable.ic_baseline_airplanemode_active_24);
-        images.add(R.drawable.ic_baseline_airplay_24);
-        images.add(R.drawable.ic_baseline_add_alert_24);
-        images.add(R.drawable.ic_baseline_add_task_24);
-        images.add(R.drawable.ic_baseline_airplanemode_active_24);
-        images.add(R.drawable.ic_baseline_airplay_24);
-        images.add(R.drawable.ic_baseline_add_alert_24);
-        images.add(R.drawable.ic_baseline_add_task_24);
-        images.add(R.drawable.ic_baseline_airplanemode_active_24);
-        images.add(R.drawable.ic_baseline_airplay_24);
+        lessonList = new ArrayList<>();
+        db = FirebaseFirestore.getInstance();
 
 
-        adapter=new Adapter(this.getActivity(),titles,images);
+        myAdapter = new MyAdapter(this.getActivity(), lessonList);
 
 
-
-        GridLayoutManager gridLayoutManager=new GridLayoutManager(this.getActivity(),
-                2,GridLayoutManager.VERTICAL,false);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(),
+                1, GridLayoutManager.HORIZONTAL, false);
 
         binding.dataList.setLayoutManager(gridLayoutManager);
-        binding.dataList.setAdapter(adapter);
+        binding.dataList.setHasFixedSize(true);
+        binding.dataList.setAdapter(myAdapter);
+
 
         binding.dataList.addOnItemTouchListener(
-                new RecyclerItemClickListener(getContext(), binding.dataList ,new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
+                new RecyclerItemClickListener(getContext(), binding.dataList, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
                         Log.i("Hey", "pos: " + position);
                         //dummy comment
                         //Navigate to new view
@@ -94,15 +79,45 @@ public class LessonsFragment extends Fragment {
 
                     }
 
-                    @Override public void onLongItemClick(View view, int position) {
+                    @Override
+                    public void onLongItemClick(View view, int position) {
                         // do whatever
                     }
                 })
         );
 
 
+        LessonData.EventChangeListener(getContext(), myAdapter, lessonList);
+
+
         return binding.getRoot();
     }
+
+//    private void EventChangeListener() {
+//        db.collection("ZSL").orderBy("Name", Query.Direction.ASCENDING)
+//                .addSnapshotListener((value, e) -> {
+//                    if (e != null) {
+////                            if(progressDialog.isShowing())
+////                                progressDialog.dismiss();
+//                        Log.e("Firestore error", e.getMessage());
+//                        return;
+//                    }
+//
+//                    for (DocumentChange dc : value.getDocumentChanges()) {
+//
+//                        if (dc.getType() == DocumentChange.Type.ADDED) {
+//                            //if data is added, populate our arrayList
+//
+//                            lessonList.add(dc.getDocument().toObject(Lesson.class));
+//
+//                        }
+//
+//                        myAdapter.notifyDataSetChanged();
+//                            if(progressDialog.isShowing())
+//                                progressDialog.dismiss();
+//                    }
+//                });
+//    }
 
     @Override
     public void onDestroyView() {
