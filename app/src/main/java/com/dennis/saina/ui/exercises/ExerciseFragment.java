@@ -38,6 +38,7 @@ public class ExerciseFragment extends Fragment {
     private RecyclerView dataList;
     ArrayList<String> names;
     ArrayList<String> images;
+    Random random;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -54,13 +55,10 @@ public class ExerciseFragment extends Fragment {
 
 
         //exit splash when clicked
-        binding.startButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                binding.splash.setVisibility(View.GONE);
-                binding.main.setVisibility(View.VISIBLE);
-                prepareQuestion();
-            }
+        binding.startButton.setOnClickListener(v -> {
+            binding.splash.setVisibility(View.GONE);
+            binding.main.setVisibility(View.VISIBLE);
+            prepareQuestion();
         });
 
         binding.readyBtn.setOnClickListener(v -> {
@@ -107,8 +105,12 @@ public class ExerciseFragment extends Fragment {
                 .into(binding.Image);
 
 
-        //randomize answer
-        Random random = new Random(3);
+        int[] positions = generate();
+
+        Log.i("DEL- after", " " + positions[0] + "\t " + positions[1] + "" + "\t" + positions[2]);
+
+        //positions[random.nextInt(3)]= Integer.parseInt(names.get(radioButtonAnswers[0]));
+
 
         binding.firstAnswer.setText("" + names.get(radioButtonAnswers[0]));
         binding.secondAnswer.setText("" + names.get(radioButtonAnswers[1]));
@@ -132,6 +134,36 @@ public class ExerciseFragment extends Fragment {
 
         //
 
+
+    }
+
+    private int[] generate() {
+        //randomize answer
+        random = new Random();
+
+
+        int[] nums = new int[3];
+        nums[0] = random.nextInt(3);
+        nums[1] = random.nextInt(3);
+        nums[2] = random.nextInt(3);
+
+        while (nums[0] == nums[1])
+            nums[0] = random.nextInt(3);
+        while (nums[0] == nums[2])
+            nums[2] = random.nextInt(3);
+        while (nums[1] == nums[2])
+            nums[2] = random.nextInt(3);
+
+        Log.i("DEL- before", " " + nums[0] + "\t " + nums[1] + "" + "\t" + nums[2]);
+
+        if (nums[0] == nums[1] || nums[0] == nums[2] || nums[1] == nums[2]) {
+            nums = generate();
+        }
+
+        Log.i("DELoo", " " + nums[0] + "\t " + nums[1] + "" + "\t" + nums[2]);
+        return nums;
+
+        //Log.i("DELo"," "+nums[0]+"\t "+nums[1]+""+"\t"+nums[2]);
 
     }
 
