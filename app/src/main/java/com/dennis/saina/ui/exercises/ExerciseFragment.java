@@ -36,6 +36,8 @@ public class ExerciseFragment extends Fragment {
     FragmentExerciseBinding binding;
 
     private RecyclerView dataList;
+    ArrayList<String> names;
+    ArrayList<String> images;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -47,57 +49,21 @@ public class ExerciseFragment extends Fragment {
         exercisesAdapter = new ExercisesAdapter(getContext(), lessonArrayList);
 
 
-        ArrayList<String> names = new ArrayList<>();
-        ArrayList<String> images = new ArrayList<>();
+        names = new ArrayList<>();
+        images = new ArrayList<>();
 
+
+        //exit splash when clicked
+        binding.startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.splash.setVisibility(View.GONE);
+                binding.main.setVisibility(View.VISIBLE);
+                prepareQuestion();
+            }
+        });
 
         binding.readyBtn.setOnClickListener(v -> {
-
-            binding.readyBtn.setVisibility(View.GONE);
-            binding.Name.setText(R.string.quiz_question);
-
-            //For each lesson separate images and names
-            int i = 0;
-            for (Lesson lesson : lessonArrayList) {
-                names.add(lesson.getName());
-                images.add(lesson.getImage());
-                i++;
-            }
-
-            //generate random numbers
-            int[] radioButtonAnswers = generateQuestions();
-            //here the first one is correct answer
-
-            Glide.with(getContext())
-                    .load(images.get(radioButtonAnswers[0]))
-                    .into(binding.Image);
-
-
-            //randomize answer
-            Random random = new Random(3);
-            Log.i("random", " " + random.toString());
-
-            binding.firstAnswer.setText("" + names.get(radioButtonAnswers[0]));
-            binding.secondAnswer.setText("" + names.get(radioButtonAnswers[1]));
-            binding.thirdAnswer.setText("" + names.get(radioButtonAnswers[2]));
-
-
-//
-//            newArr[correctLocated]= radioButtonAnswers[0];
-//            newArr[other1]=other1;
-//            newArr[other2]=other2;
-
-
-//            String a;
-//
-//            binding.firstAnswer.setText(""+names.get(newArr[correctLocated]));
-//            binding.secondAnswer.setText(""+names.get(newArr[other1]));
-//            binding.thirdAnswer.setText(""+names.get(newArr[other2]));
-
-
-            Log.i("MSGt", "" + names.get(radioButtonAnswers[0]));
-
-            //
 
 
         });
@@ -120,6 +86,55 @@ public class ExerciseFragment extends Fragment {
 
     }
 
+    private void prepareQuestion() {
+        binding.readyBtn.setVisibility(View.GONE);
+        binding.Name.setText(R.string.quiz_question);
+
+        //For each lesson separate images and names
+        int i = 0;
+        for (Lesson lesson : lessonArrayList) {
+            names.add(lesson.getName());
+            images.add(lesson.getImage());
+            i++;
+        }
+
+        //generate random numbers
+        int[] radioButtonAnswers = generateQuestions();
+        //here the first one is correct answer
+
+        Glide.with(getContext())
+                .load(images.get(radioButtonAnswers[0]))
+                .into(binding.Image);
+
+
+        //randomize answer
+        Random random = new Random(3);
+
+        binding.firstAnswer.setText("" + names.get(radioButtonAnswers[0]));
+        binding.secondAnswer.setText("" + names.get(radioButtonAnswers[1]));
+        binding.thirdAnswer.setText("" + names.get(radioButtonAnswers[2]));
+
+
+//
+//            newArr[correctLocated]= radioButtonAnswers[0];
+//            newArr[other1]=other1;
+//            newArr[other2]=other2;
+
+
+//            String a;
+//
+//            binding.firstAnswer.setText(""+names.get(newArr[correctLocated]));
+//            binding.secondAnswer.setText(""+names.get(newArr[other1]));
+//            binding.thirdAnswer.setText(""+names.get(newArr[other2]));
+
+
+        Log.i("MSGt", "" + names.get(radioButtonAnswers[0]));
+
+        //
+
+
+    }
+
     private int[] generateQuestions() {
         int[] questions = new int[3];
         Random rand = new Random();
@@ -127,18 +142,24 @@ public class ExerciseFragment extends Fragment {
         questions[1] = rand.nextInt(lessonArrayList.size());
         questions[2] = rand.nextInt(lessonArrayList.size());
 
-        if (questions[1] == questions[0]) {
+        while (questions[1] == questions[0]) {
             questions[1] = rand.nextInt(lessonArrayList.size());
         }
-        if (questions[2] == questions[0]) {
+        while (questions[2] == questions[0]) {
             questions[2] = rand.nextInt(lessonArrayList.size());
         }
-        if (questions[2] == questions[1]) {
+        while (questions[2] == questions[1]) {
             questions[2] = rand.nextInt(lessonArrayList.size());
         }
 
 
         return questions;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 
 

@@ -11,7 +11,7 @@
         android:label="@string/title_lessons"
         tools:layout="@layout/fragment_lessons">
         <action
-            android:id="@+id/action_navigation_lessons_to_navigation_exercise"
+            android:id="@+id/action_navigation_lessons_to_exercise_view"
             app:destination="@id/navigation_exercise" />
     </fragment>
 
@@ -28,19 +28,11 @@
         tools:layout="@layout/fragment_notifications" />
     <fragment
         android:id="@+id/navigation_exercise"
-        android:name="com.dennis.saina.ExerciseSplashFragment"
-        android:label="navigation_exercise"
-        tools:layout="@layout/fragment_exercise_splash">
-        <argument
-            android:name="lessonsList"
-            app:argType="reference" />
-        <action
-            android:id="@+id/action_navigation_exercise_to_exercise_view"
-            app:destination="@id/exercise_view" />
-    </fragment>
-    <fragment
-        android:id="@+id/exercise_view"
         android:name="com.dennis.saina.ui.exercises.ExerciseFragment"
-        android:label="fragment_exercise"
-        tools:layout="@layout/fragment_exercise" />
+        android:label="@string/title_exercise" />
+    <fragment
+        android:id="@+id/navigation_realTime"
+        android:name="com.dennis.saina.RealTimeFragment"
+        android:label="Detect Sign Language in Real Time"
+        tools:layout="@layout/real_time_fragment" />
 </navigation>

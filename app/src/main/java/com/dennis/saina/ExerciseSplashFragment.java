@@ -4,25 +4,15 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.dennis.saina.databinding.FragmentExerciseSplashBinding;
-import com.dennis.saina.databinding.FragmentLessonsBinding;
-import com.dennis.saina.ui.Lesson;
-import com.dennis.saina.ui.LessonData;
-import com.dennis.saina.ui.adapters.ExercisesAdapter;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
-import java.util.Objects;
 
 
 public class ExerciseSplashFragment extends Fragment {
@@ -36,14 +26,14 @@ public class ExerciseSplashFragment extends Fragment {
         binding = FragmentExerciseSplashBinding.inflate(inflater, container, false);
 
 
-        binding.startButton.setOnClickListener(v -> {
-
-            NavController navController = Navigation.findNavController(requireActivity(),
-                    R.id.nav_host_fragment_activity_main);
-
-            navController.navigate(ExerciseSplashFragmentDirections.actionNavigationExerciseToExerciseView());
-
-        });
+//        binding.startButton.setOnClickListener(v -> {
+//
+//            NavController navController = Navigation.findNavController(requireActivity(),
+//                    R.id.nav_host_fragment_activity_main);
+//
+//            navController.navigate(ExerciseSplashFragmentDirections.actionNavigationExerciseToExerciseView());
+//
+//        });
 
 
         return binding.getRoot();
