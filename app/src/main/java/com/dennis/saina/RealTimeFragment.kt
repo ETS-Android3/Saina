@@ -1,49 +1,42 @@
-package com.dennis.saina;
+package com.dennis.saina
 
-import androidx.lifecycle.ViewModelProvider;
+import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
+import com.dennis.saina.RealTimeViewModel
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.os.Bundle
+import android.provider.MediaStore
+import android.view.View
+import android.widget.ImageView
+import androidx.fragment.app.Fragment
+import com.dennis.saina.RealTimeFragment
+import com.dennis.saina.databinding.RealTimeFragmentBinding
+import java.net.URI
 
-import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.dennis.saina.databinding.RealTimeFragmentBinding;
+class RealTimeFragment : Fragment() {
 
 
-public class RealTimeFragment extends Fragment {
+    lateinit var binding: RealTimeFragmentBinding
 
-    private RealTimeViewModel mViewModel;
+    lateinit var bitmap: Bitmap
 
-    public static RealTimeFragment newInstance() {
-        return new RealTimeFragment();
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = RealTimeFragmentBinding.inflate(inflater, container, false)
+
+        binding.detectBtn.setOnClickListener {
+            val intent = Intent(getActivity(), DetectActivity::class.java)
+            getActivity()?.startActivity(intent)
+        }
+
+
+        return binding!!.root
     }
 
-    RealTimeFragmentBinding binding;
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        binding = RealTimeFragmentBinding.inflate(inflater, container, false);
-        return binding.getRoot();
-    }
-
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(RealTimeViewModel.class);
-        // TODO: Use the ViewModel
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
 
 }

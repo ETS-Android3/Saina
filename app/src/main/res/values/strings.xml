@@ -16,4 +16,8 @@
     <string name="quiz_question">What does the sign say?</string>
     <string name="question_length_text">10 Questions in this quiz?</string>
     <string name="i_m_ready">I\'m ready</string>
+    <string name="select">Select</string>
+    <string name="predict">Predict</string>
+    <string name="display_text">Select Image and press Predict</string>
+    <string name="detect_zsl_numbers">Detect ZSL Numbers</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.dennis.saina.ui.exercises;
 
 import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,15 +13,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.bumptech.glide.Glide;
 import com.dennis.saina.R;
+
 
 import com.dennis.saina.databinding.FragmentExerciseBinding;
 import com.dennis.saina.ui.Lesson;
 import com.dennis.saina.ui.LessonData;
 import com.dennis.saina.ui.adapters.ExercisesAdapter;
 import com.dennis.saina.ui.adapters.MyAdapter;
+import com.google.android.gms.common.util.ArrayUtils;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -38,7 +43,14 @@ public class ExerciseFragment extends Fragment {
     private RecyclerView dataList;
     ArrayList<String> names;
     ArrayList<String> images;
+    ArrayList<String> answeredQuestionNames;
+    ArrayList<String> answeredQuestionImages;
+    ArrayList<Integer> answeredNumbers;
     Random random;
+    RadioButton radioButton;
+
+
+    int[] positions;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -50,10 +62,12 @@ public class ExerciseFragment extends Fragment {
         exercisesAdapter = new ExercisesAdapter(getContext(), lessonArrayList);
 
 
+        //generate positions of
+        positions = generate();
+
         names = new ArrayList<>();
         images = new ArrayList<>();
-
-
+        answeredNumbers = new ArrayList<>();
         //exit splash when clicked
         binding.startButton.setOnClickListener(v -> {
             binding.splash.setVisibility(View.GONE);
@@ -61,7 +75,59 @@ public class ExerciseFragment extends Fragment {
             prepareQuestion();
         });
 
-        binding.readyBtn.setOnClickListener(v -> {
+        binding.answerTextView.setVisibility(View.INVISIBLE);
+
+
+        binding.nextBtn.setOnClickListener(v -> {
+
+
+            binding.nextBtn.setText("Next");
+
+            binding.questionGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    switch (checkedId) {
+                        case R.id.firstAnswer:
+                            // do operations specific to this selection
+                            binding.answerTextView.setVisibility(View.GONE);
+                            if (findIndex(positions, 0) == 0) {
+
+                                binding.answerTextView.setText("Correct");
+                            } else {
+                                binding.answerTextView.setText("Wrong");
+                            }
+                            ;
+                            break;
+                        case R.id.secondAnswer:
+                            binding.answerTextView.setVisibility(View.GONE);
+                            // do operations specific to this selection
+                            if (findIndex(positions, 0) == 1) {
+                                binding.answerTextView.setText("Correct");
+                            } else {
+                                binding.answerTextView.setText("Wrong");
+                            }
+                            ;
+                            break;
+                        case R.id.thirdAnswer:
+                            binding.answerTextView.setVisibility(View.GONE);
+                            // do operations specific to this selection
+                            if (findIndex(positions, 0) == 2) {
+                                binding.answerTextView.setText("Correct");
+                            } else {
+                                binding.answerTextView.setText("Wrong");
+                            }
+
+                            break;
+                    }
+                }
+            });
+            if (binding.answerTextView.getText() == "Wrong") {
+                binding.answerTextView.setTextColor(Color.RED);
+                binding.answerTextView.setVisibility(View.VISIBLE);
+            } else {
+                binding.answerTextView.setTextColor(Color.GREEN);
+                binding.answerTextView.setVisibility(View.VISIBLE);
+            }
 
 
         });
@@ -84,64 +150,82 @@ public class ExerciseFragment extends Fragment {
 
     }
 
-    private void prepareQuestion() {
+    private int prepareQuestion() {
+        binding.answerTextView.setVisibility(View.GONE);
         binding.readyBtn.setVisibility(View.GONE);
         binding.Name.setText(R.string.quiz_question);
 
         //For each lesson separate images and names
-        int i = 0;
         for (Lesson lesson : lessonArrayList) {
             names.add(lesson.getName());
             images.add(lesson.getImage());
-            i++;
         }
 
         //generate random numbers
         int[] radioButtonAnswers = generateQuestions();
         //here the first one is correct answer
 
+        answeredNumbers.add(radioButtonAnswers[0]);
+
         Glide.with(getContext())
                 .load(images.get(radioButtonAnswers[0]))
                 .into(binding.Image);
 
 
-        int[] positions = generate();
-
-        Log.i("DEL- after", " " + positions[0] + "\t " + positions[1] + "" + "\t" + positions[2]);
-
-        //positions[random.nextInt(3)]= Integer.parseInt(names.get(radioButtonAnswers[0]));
-
-
-        binding.firstAnswer.setText("" + names.get(radioButtonAnswers[0]));
-        binding.secondAnswer.setText("" + names.get(radioButtonAnswers[1]));
-        binding.thirdAnswer.setText("" + names.get(radioButtonAnswers[2]));
-
-
-//
-//            newArr[correctLocated]= radioButtonAnswers[0];
-//            newArr[other1]=other1;
-//            newArr[other2]=other2;
+        for (int i = 0; i < 3; i++) {
+            if (positions[0] == i) {
+                binding.firstAnswer.setText("" + names.get(radioButtonAnswers[i]));
+            } else if (positions[1] == i) {
+                binding.secondAnswer.setText("" + names.get(radioButtonAnswers[i]));
+            } else if (positions[2] == i) {
+                binding.thirdAnswer.setText("" + names.get(radioButtonAnswers[i]));
+            }
+        }
 
 
-//            String a;
-//
-//            binding.firstAnswer.setText(""+names.get(newArr[correctLocated]));
-//            binding.secondAnswer.setText(""+names.get(newArr[other1]));
-//            binding.thirdAnswer.setText(""+names.get(newArr[other2]));
+        //get clicked radioButton
 
 
+        //set textView to correct answer
+        //binding.answerTextView.setText(" "+names.get(radioButtonAnswers[0]));
         Log.i("MSGt", "" + names.get(radioButtonAnswers[0]));
 
-        //
+        //to avoid repetition remove correct answers used
 
+        names.remove(names.get(radioButtonAnswers[0]));
+        images.remove(images.get(radioButtonAnswers[0]));
+        return findIndex(positions, 0);
+    }
 
+    // Linear-search function to find the index of an element
+    public static int findIndex(int arr[], int t) {
+
+        // if array is Null
+        if (arr == null) {
+            return -1;
+        }
+
+        // find length of array
+        int len = arr.length;
+        int i = 0;
+
+        // traverse in the array
+        while (i < len) {
+
+            // if the i-th element is t
+            // then return the index
+            if (arr[i] == t) {
+                return i;
+            } else {
+                i = i + 1;
+            }
+        }
+        return -1;
     }
 
     private int[] generate() {
         //randomize answer
         random = new Random();
-
-
         int[] nums = new int[3];
         nums[0] = random.nextInt(3);
         nums[1] = random.nextInt(3);
@@ -154,16 +238,11 @@ public class ExerciseFragment extends Fragment {
         while (nums[1] == nums[2])
             nums[2] = random.nextInt(3);
 
-        Log.i("DEL- before", " " + nums[0] + "\t " + nums[1] + "" + "\t" + nums[2]);
-
         if (nums[0] == nums[1] || nums[0] == nums[2] || nums[1] == nums[2]) {
             nums = generate();
         }
 
-        Log.i("DELoo", " " + nums[0] + "\t " + nums[1] + "" + "\t" + nums[2]);
         return nums;
-
-        //Log.i("DELo"," "+nums[0]+"\t "+nums[1]+""+"\t"+nums[2]);
 
     }
 
