@@ -10,15 +10,7 @@
         android:id="@+id/navigation_exercise"
         android:icon="@drawable/ic_baseline_run_circle_24"
         android:title="@string/title_exercise" />
-    <item
-        android:id="@+id/navigation_dashboard"
-        android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_dashboard" />
 
-    <item
-        android:id="@+id/navigation_notifications"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="@string/title_notifications" />
     <item
         android:id="@+id/navigation_realTime"
         android:icon="@drawable/ic_baseline_camera_alt_24"

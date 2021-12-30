@@ -17,6 +17,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.bumptech.glide.Glide;
+import com.dennis.saina.Question;
 import com.dennis.saina.R;
 
 
@@ -40,15 +41,15 @@ public class ExerciseFragment extends Fragment {
     MyAdapter myAdapter;
     FragmentExerciseBinding binding;
 
-    private RecyclerView dataList;
     ArrayList<String> names;
     ArrayList<String> images;
     ArrayList<String> answeredQuestionNames;
     ArrayList<String> answeredQuestionImages;
     ArrayList<Integer> answeredNumbers;
+    ArrayList<Question> questionsList;
     Random random;
-    RadioButton radioButton;
 
+    Question question;
 
     int[] positions;
 
@@ -68,6 +69,7 @@ public class ExerciseFragment extends Fragment {
         names = new ArrayList<>();
         images = new ArrayList<>();
         answeredNumbers = new ArrayList<>();
+        questionsList = new ArrayList<>();
         //exit splash when clicked
         binding.startButton.setOnClickListener(v -> {
             binding.splash.setVisibility(View.GONE);
@@ -75,61 +77,63 @@ public class ExerciseFragment extends Fragment {
             prepareQuestion();
         });
 
-        binding.answerTextView.setVisibility(View.INVISIBLE);
+
 
 
         binding.nextBtn.setOnClickListener(v -> {
+            prepareQuestion();
+
+//            binding.questionGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//                @Override
+//                public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                    switch (checkedId) {
+//                        case R.id.firstAnswer:
+//                            // do operations specific to this selection
+//                            binding.answerTextView.setVisibility(View.GONE);
+//                            if (findIndex(positions, 0) == 0) {
+//
+//                                binding.answerTextView.setText("Correct");
+//                            } else {
+//                                binding.answerTextView.setText("Wrong");
+//                            }
+//                            ;
+//                            break;
+//                        case R.id.secondAnswer:
+//                            binding.answerTextView.setVisibility(View.GONE);
+//                            // do operations specific to this selection
+//                            if (findIndex(positions, 0) == 1) {
+//                                binding.answerTextView.setText("Correct");
+//                            } else {
+//                                binding.answerTextView.setText("Wrong");
+//                            }
+//                            ;
+//                            break;
+//                        case R.id.thirdAnswer:
+//                            binding.answerTextView.setVisibility(View.GONE);
+//                            // do operations specific to this selection
+//                            if (findIndex(positions, 0) == 2) {
+//                                binding.answerTextView.setText("Correct");
+//                            } else {
+//                                binding.answerTextView.setText("Wrong");
+//                            }
+//
+//                            break;
+//                    }
+//                }
+//            });
+//            if (binding.answerTextView.getText() == "Wrong") {
+//                binding.answerTextView.setTextColor(Color.RED);
+//                binding.answerTextView.setVisibility(View.VISIBLE);
+//            } else {
+//                binding.answerTextView.setTextColor(Color.GREEN);
+//                binding.answerTextView.setVisibility(View.VISIBLE);
+//            }
 
 
-            binding.nextBtn.setText("Next");
-
-            binding.questionGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(RadioGroup group, int checkedId) {
-                    switch (checkedId) {
-                        case R.id.firstAnswer:
-                            // do operations specific to this selection
-                            binding.answerTextView.setVisibility(View.GONE);
-                            if (findIndex(positions, 0) == 0) {
-
-                                binding.answerTextView.setText("Correct");
-                            } else {
-                                binding.answerTextView.setText("Wrong");
-                            }
-                            ;
-                            break;
-                        case R.id.secondAnswer:
-                            binding.answerTextView.setVisibility(View.GONE);
-                            // do operations specific to this selection
-                            if (findIndex(positions, 0) == 1) {
-                                binding.answerTextView.setText("Correct");
-                            } else {
-                                binding.answerTextView.setText("Wrong");
-                            }
-                            ;
-                            break;
-                        case R.id.thirdAnswer:
-                            binding.answerTextView.setVisibility(View.GONE);
-                            // do operations specific to this selection
-                            if (findIndex(positions, 0) == 2) {
-                                binding.answerTextView.setText("Correct");
-                            } else {
-                                binding.answerTextView.setText("Wrong");
-                            }
-
-                            break;
-                    }
-                }
-            });
-            if (binding.answerTextView.getText() == "Wrong") {
-                binding.answerTextView.setTextColor(Color.RED);
-                binding.answerTextView.setVisibility(View.VISIBLE);
-            } else {
-                binding.answerTextView.setTextColor(Color.GREEN);
-                binding.answerTextView.setVisibility(View.VISIBLE);
-            }
-
-
+        });
+        binding.prevBtn.setOnClickListener(v -> {
+            question = new Question();
+            Log.i("HDD", "" + questionsList.get(questionsList.size() - 1).getmQuestionAnswer());
         });
 
         ProgressDialog progressDialog = new ProgressDialog(getContext());
@@ -151,7 +155,7 @@ public class ExerciseFragment extends Fragment {
     }
 
     private int prepareQuestion() {
-        binding.answerTextView.setVisibility(View.GONE);
+
         binding.readyBtn.setVisibility(View.GONE);
         binding.Name.setText(R.string.quiz_question);
 
@@ -166,11 +170,17 @@ public class ExerciseFragment extends Fragment {
         //here the first one is correct answer
 
         answeredNumbers.add(radioButtonAnswers[0]);
+        question = new Question(
+                images.get(radioButtonAnswers[0]),
+                names.get(radioButtonAnswers[0]),
+                names.get(radioButtonAnswers[1]),
+                names.get(radioButtonAnswers[2]));
+
+        questionsList.add(question);
 
         Glide.with(getContext())
-                .load(images.get(radioButtonAnswers[0]))
+                .load(question.getmQuestionImage())
                 .into(binding.Image);
-
 
         for (int i = 0; i < 3; i++) {
             if (positions[0] == i) {
@@ -183,12 +193,7 @@ public class ExerciseFragment extends Fragment {
         }
 
 
-        //get clicked radioButton
-
-
-        //set textView to correct answer
-        //binding.answerTextView.setText(" "+names.get(radioButtonAnswers[0]));
-        Log.i("MSGt", "" + names.get(radioButtonAnswers[0]));
+        Log.i("MSGt", "" + question.getmQuestionAnswer());
 
         //to avoid repetition remove correct answers used
 
