@@ -20,4 +20,11 @@
     <string name="predict">Predict</string>
     <string name="display_text">Select Image and press Predict</string>
     <string name="detect_zsl_numbers">Detect ZSL Numbers</string>
+    <string name="Done">Done</string>
+    <string name="Alphabet">Alphabet</string>
+    <string name="Numbers">Numbers</string>
+    <string name="detection">ZSL Detect</string>
+    <string name="image_of_zimbabwe_sign_language_alphabet">image_of_zimbabwe_sign_language_alphabet</string>
+    <string name="image_of_zimbabwe_sign_language_numbers">image_of_zimbabwe_sign_language_numbers</string>
+    <string name="try_it">Try It</string>
 </resources>

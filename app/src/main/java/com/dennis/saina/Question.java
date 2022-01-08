@@ -7,6 +7,7 @@ public class Question {
     private String mQuestionOption2;
 
     public Question() {
+
     }
 
     public Question(String mQuestionImage, String mQuestionAnswer, String mQuestionOption1, String mQuestionOption2) {
@@ -29,6 +30,8 @@ public class Question {
     }
 
     public void setmQuestionAnswer(String mQuestionAnswer) {
+
+
         this.mQuestionAnswer = mQuestionAnswer;
     }
 

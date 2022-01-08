@@ -22,7 +22,6 @@ public class LessonData {
 
     public static void EventChangeListener(Context context, RecyclerView.Adapter adapter, ArrayList<Lesson> lessonArrayList, ProgressDialog progressDialog) {
 
-
         Thread thread = new Thread() {
             public void run() {
 
@@ -54,8 +53,8 @@ public class LessonData {
                         });
             }
         };
-        thread.start();
 
+        thread.start();
 
     }
 

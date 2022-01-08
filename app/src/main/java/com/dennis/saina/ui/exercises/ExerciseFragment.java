@@ -1,20 +1,16 @@
 package com.dennis.saina.ui.exercises;
 
 import android.app.ProgressDialog;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
 import com.bumptech.glide.Glide;
 import com.dennis.saina.Question;
@@ -26,10 +22,10 @@ import com.dennis.saina.ui.Lesson;
 import com.dennis.saina.ui.LessonData;
 import com.dennis.saina.ui.adapters.ExercisesAdapter;
 import com.dennis.saina.ui.adapters.MyAdapter;
-import com.google.android.gms.common.util.ArrayUtils;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 public class ExerciseFragment extends Fragment {
@@ -63,13 +59,14 @@ public class ExerciseFragment extends Fragment {
         exercisesAdapter = new ExercisesAdapter(getContext(), lessonArrayList);
 
 
-        //generate positions of
-        positions = generate();
+
 
         names = new ArrayList<>();
         images = new ArrayList<>();
         answeredNumbers = new ArrayList<>();
         questionsList = new ArrayList<>();
+
+
         //exit splash when clicked
         binding.startButton.setOnClickListener(v -> {
             binding.splash.setVisibility(View.GONE);
@@ -83,57 +80,9 @@ public class ExerciseFragment extends Fragment {
         binding.nextBtn.setOnClickListener(v -> {
             prepareQuestion();
 
-//            binding.questionGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//                @Override
-//                public void onCheckedChanged(RadioGroup group, int checkedId) {
-//                    switch (checkedId) {
-//                        case R.id.firstAnswer:
-//                            // do operations specific to this selection
-//                            binding.answerTextView.setVisibility(View.GONE);
-//                            if (findIndex(positions, 0) == 0) {
-//
-//                                binding.answerTextView.setText("Correct");
-//                            } else {
-//                                binding.answerTextView.setText("Wrong");
-//                            }
-//                            ;
-//                            break;
-//                        case R.id.secondAnswer:
-//                            binding.answerTextView.setVisibility(View.GONE);
-//                            // do operations specific to this selection
-//                            if (findIndex(positions, 0) == 1) {
-//                                binding.answerTextView.setText("Correct");
-//                            } else {
-//                                binding.answerTextView.setText("Wrong");
-//                            }
-//                            ;
-//                            break;
-//                        case R.id.thirdAnswer:
-//                            binding.answerTextView.setVisibility(View.GONE);
-//                            // do operations specific to this selection
-//                            if (findIndex(positions, 0) == 2) {
-//                                binding.answerTextView.setText("Correct");
-//                            } else {
-//                                binding.answerTextView.setText("Wrong");
-//                            }
-//
-//                            break;
-//                    }
-//                }
-//            });
-//            if (binding.answerTextView.getText() == "Wrong") {
-//                binding.answerTextView.setTextColor(Color.RED);
-//                binding.answerTextView.setVisibility(View.VISIBLE);
-//            } else {
-//                binding.answerTextView.setTextColor(Color.GREEN);
-//                binding.answerTextView.setVisibility(View.VISIBLE);
-//            }
-
-
         });
         binding.prevBtn.setOnClickListener(v -> {
-            question = new Question();
-            Log.i("HDD", "" + questionsList.get(questionsList.size() - 1).getmQuestionAnswer());
+
         });
 
         ProgressDialog progressDialog = new ProgressDialog(getContext());
@@ -143,7 +92,9 @@ public class ExerciseFragment extends Fragment {
 
         Thread thread = new Thread() {
             public void run() {
+
                 LessonData.EventChangeListener(getContext(), myAdapter, lessonArrayList, progressDialog);
+
             }
         };
         thread.start();
@@ -156,8 +107,12 @@ public class ExerciseFragment extends Fragment {
 
     private int prepareQuestion() {
 
-        binding.readyBtn.setVisibility(View.GONE);
+        if (binding.readyBtn.getVisibility() != View.GONE) {
+            binding.readyBtn.setVisibility(View.GONE);
+        }
+
         binding.Name.setText(R.string.quiz_question);
+        binding.nextBtn.setText(R.string.Done);
 
         //For each lesson separate images and names
         for (Lesson lesson : lessonArrayList) {
@@ -165,6 +120,7 @@ public class ExerciseFragment extends Fragment {
             images.add(lesson.getImage());
         }
 
+        positions = generate();
         //generate random numbers
         int[] radioButtonAnswers = generateQuestions();
         //here the first one is correct answer
@@ -176,9 +132,11 @@ public class ExerciseFragment extends Fragment {
                 names.get(radioButtonAnswers[1]),
                 names.get(radioButtonAnswers[2]));
 
+
         questionsList.add(question);
 
-        Glide.with(getContext())
+
+        Glide.with(requireContext())
                 .load(question.getmQuestionImage())
                 .into(binding.Image);
 
@@ -195,6 +153,7 @@ public class ExerciseFragment extends Fragment {
 
         Log.i("MSGt", "" + question.getmQuestionAnswer());
 
+
         //to avoid repetition remove correct answers used
 
         names.remove(names.get(radioButtonAnswers[0]));
@@ -203,7 +162,7 @@ public class ExerciseFragment extends Fragment {
     }
 
     // Linear-search function to find the index of an element
-    public static int findIndex(int arr[], int t) {
+    public static int findIndex(int[] arr, int t) {
 
         // if array is Null
         if (arr == null) {
@@ -246,7 +205,7 @@ public class ExerciseFragment extends Fragment {
         if (nums[0] == nums[1] || nums[0] == nums[2] || nums[1] == nums[2]) {
             nums = generate();
         }
-
+        Log.i("Nums", "num0: " + nums[0] + " num1: " + nums[1] + " num2: " + nums[2]);
         return nums;
 
     }

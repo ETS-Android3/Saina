@@ -1,4 +1,4 @@
-package com.dennis.saina;
+package com.dennis.saina.ui;
 
 import androidx.lifecycle.ViewModel;
 

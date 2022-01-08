@@ -49,7 +49,7 @@ class DetectActivity : AppCompatActivity() {
         }
 
         selectBtn.setOnClickListener {
-            var intent: Intent = Intent(Intent.ACTION_GET_CONTENT)
+            val intent: Intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "image/*"
 
             startActivityForResult(intent, 100)
@@ -60,37 +60,44 @@ class DetectActivity : AppCompatActivity() {
         }
 
         predictBtn.setOnClickListener {
-            lateinit var resized: Bitmap
 
-            resized = convertToBlackWhite(resized)
-            resized = resized.copy(Bitmap.Config.ARGB_8888, true)
+
+            var resized: Bitmap?
+
+
             resized = Bitmap.createScaledBitmap(bitmap, 224, 224, false)
 
+            if (resized != null) {
+                resized = convertToBlackWhite(resized)
+                resized = resized.copy(Bitmap.Config.ARGB_8888, true)
 
-            val model = Model.newInstance(this)
+
+                val model = Model.newInstance(this)
 
 // Creates inputs for reference.
-            val inputFeature0 =
-                TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.UINT8)
+                val inputFeature0 =
+                    TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.UINT8)
 
-            //create byteBuffer from resized bitmap
+                //create byteBuffer from resized bitmap
 
-            val tbuffer = TensorImage.fromBitmap(resized)
-            val byteBuffer = tbuffer.buffer
+                val tbuffer = TensorImage.fromBitmap(resized)
+                val byteBuffer = tbuffer.buffer
 
-            inputFeature0.loadBuffer(byteBuffer)
+                inputFeature0.loadBuffer(byteBuffer)
 
 // Runs model inference and gets result.
-            val outputs = model.process(inputFeature0)
-            val outputFeature0 = outputs.outputFeature0AsTensorBuffer
+                val outputs = model.process(inputFeature0)
+                val outputFeature0 = outputs.outputFeature0AsTensorBuffer
 
 
-            val max = getMax(outputFeature0.floatArray)
+                val max = getMax(outputFeature0.floatArray)
 
-            textView.setText(townList[max])
+                textView.setText(townList[max])
 
 // Releases model resources if no longer used.
-            model.close()
+                model.close()
+            }
+
         }
 
 

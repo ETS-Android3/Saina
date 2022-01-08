@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_lessons">
+    app:startDestination="@id/navigation_numbers">
 
     <fragment
         android:id="@+id/navigation_lessons"
@@ -32,7 +32,17 @@
         android:label="@string/title_exercise" />
     <fragment
         android:id="@+id/navigation_realTime"
-        android:name="com.dennis.saina.RealTimeFragment"
+        android:name="com.dennis.saina.ui.RealTimeFragment"
         android:label="Detect Sign Language in Real Time"
         tools:layout="@layout/real_time_fragment" />
+    <fragment
+        android:id="@+id/navigation_numbers"
+        android:name="com.dennis.saina.ui.numbers.NumbersFragment"
+        android:label="Numbers"
+        tools:layout="@layout/fragment_numbers" />
+    <fragment
+        android:id="@+id/navigation_alphabet"
+        android:name="com.dennis.saina.ui.AlphabetFragment"
+        android:label="Alphabet"
+        tools:layout="@layout/fragment_alphabet" />
 </navigation>
