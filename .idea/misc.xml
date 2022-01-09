@@ -4,8 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Dennis/AndroidStudioProjects/Saina/app/src/main/res/drawable/ic_baseline_add_alert_24.xml" value="0.2037037037037037" />
+        <entry key="..\:/Users/Dennis/AndroidStudioProjects/Saina/app/src/main/res/font/asset.xml" value="0.11822916666666666" />
         <entry key="..\:/Users/Dennis/AndroidStudioProjects/Saina/app/src/main/res/layout/activity_detect.xml" value="0.264" />
+        <entry key="..\:/Users/Dennis/AndroidStudioProjects/Saina/app/src/main/res/layout/activity_exercise.xml" value="0.2" />
         <entry key="..\:/Users/Dennis/AndroidStudioProjects/Saina/app/src/main/res/layout/activity_main.xml" value="0.17889492753623187" />
+        <entry key="..\:/Users/Dennis/AndroidStudioProjects/Saina/app/src/main/res/layout/activity_splash.xml" value="0.1" />
+        <entry key="..\:/Users/Dennis/AndroidStudioProjects/Saina/app/src/main/res/layout/activity_splash_screen.xml" value="0.11481481481481481" />
+        <entry key="..\:/Users/Dennis/AndroidStudioProjects/Saina/app/src/main/res/layout/bg_gradient.xml" value="0.19635416666666666" />
         <entry key="..\:/Users/Dennis/AndroidStudioProjects/Saina/app/src/main/res/layout/exercise.xml" value="0.1365079365079365" />
         <entry key="..\:/Users/Dennis/AndroidStudioProjects/Saina/app/src/main/res/layout/exercise_fragment.xml" value="0.12708333333333333" />
         <entry key="..\:/Users/Dennis/AndroidStudioProjects/Saina/app/src/main/res/layout/fragment_alphabet.xml" value="0.18177083333333333" />
@@ -21,6 +26,7 @@
         <entry key="..\:/Users/Dennis/AndroidStudioProjects/Saina/app/src/main/res/layout/fragment_play_lesson_view.xml" value="0.1381340579710145" />
         <entry key="..\:/Users/Dennis/AndroidStudioProjects/Saina/app/src/main/res/layout/fragment_video.xml" value="0.1" />
         <entry key="..\:/Users/Dennis/AndroidStudioProjects/Saina/app/src/main/res/layout/real_time_fragment.xml" value="0.1703125" />
+        <entry key="..\:/Users/Dennis/AndroidStudioProjects/Saina/app/src/main/res/layout/splash_background.xml" value="0.1" />
         <entry key="..\:/Users/Dennis/AndroidStudioProjects/Saina/app/src/main/res/layout/video.xml" value="0.1" />
         <entry key="..\:/Users/Dennis/AndroidStudioProjects/Saina/app/src/main/res/menu/bottom_nav_menu.xml" value="0.264" />
       </map>

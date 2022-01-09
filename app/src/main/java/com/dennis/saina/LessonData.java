@@ -1,4 +1,4 @@
-package com.dennis.saina.ui;
+package com.dennis.saina;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dennis.saina.ui.Lesson;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 
 public class LessonData {
 
-
+    Thread thread;
     private LessonData() {
 
     }

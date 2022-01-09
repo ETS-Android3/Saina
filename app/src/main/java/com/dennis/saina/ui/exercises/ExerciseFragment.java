@@ -1,6 +1,7 @@
 package com.dennis.saina.ui.exercises;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,21 +12,23 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioGroup;
 
 import com.bumptech.glide.Glide;
+import com.dennis.saina.ExerciseActivity;
 import com.dennis.saina.Question;
 import com.dennis.saina.R;
 
 
 import com.dennis.saina.databinding.FragmentExerciseBinding;
 import com.dennis.saina.ui.Lesson;
-import com.dennis.saina.ui.LessonData;
+import com.dennis.saina.LessonData;
 import com.dennis.saina.ui.adapters.ExercisesAdapter;
 import com.dennis.saina.ui.adapters.MyAdapter;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.Objects;
+
 import java.util.Random;
 
 public class ExerciseFragment extends Fragment {
@@ -39,8 +42,7 @@ public class ExerciseFragment extends Fragment {
 
     ArrayList<String> names;
     ArrayList<String> images;
-    ArrayList<String> answeredQuestionNames;
-    ArrayList<String> answeredQuestionImages;
+
     ArrayList<Integer> answeredNumbers;
     ArrayList<Question> questionsList;
     Random random;
@@ -48,6 +50,7 @@ public class ExerciseFragment extends Fragment {
     Question question;
 
     int[] positions;
+    RadioGroup questionGroup;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -60,7 +63,6 @@ public class ExerciseFragment extends Fragment {
 
 
 
-
         names = new ArrayList<>();
         images = new ArrayList<>();
         answeredNumbers = new ArrayList<>();
@@ -69,8 +71,11 @@ public class ExerciseFragment extends Fragment {
 
         //exit splash when clicked
         binding.startButton.setOnClickListener(v -> {
-            binding.splash.setVisibility(View.GONE);
-            binding.main.setVisibility(View.VISIBLE);
+//            binding.splash.setVisibility(View.GONE);
+//            binding.main.setVisibility(View.VISIBLE);
+
+            Intent intent = new Intent(getContext().getApplicationContext(), ExerciseActivity.class);
+            startActivity(intent);
             prepareQuestion();
         });
 
@@ -78,7 +83,15 @@ public class ExerciseFragment extends Fragment {
 
 
         binding.nextBtn.setOnClickListener(v -> {
-            prepareQuestion();
+            Log.i("msgRes", "" + prepareQuestion());
+
+            //store the currectQuestion
+
+            //check if selected item ==correct answer
+
+
+            //Log.i("selected Answer: "," "+ selectedButton[0]);
+
 
         });
         binding.prevBtn.setOnClickListener(v -> {
@@ -94,7 +107,6 @@ public class ExerciseFragment extends Fragment {
             public void run() {
 
                 LessonData.EventChangeListener(getContext(), myAdapter, lessonArrayList, progressDialog);
-
             }
         };
         thread.start();
@@ -104,6 +116,7 @@ public class ExerciseFragment extends Fragment {
 
 
     }
+
 
     private int prepareQuestion() {
 
@@ -158,6 +171,8 @@ public class ExerciseFragment extends Fragment {
 
         names.remove(names.get(radioButtonAnswers[0]));
         images.remove(images.get(radioButtonAnswers[0]));
+
+        //this returns position of correct answer
         return findIndex(positions, 0);
     }
 

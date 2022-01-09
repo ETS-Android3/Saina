@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.dennis.saina.databinding.FragmentLessonsBinding;
 import com.dennis.saina.ui.Lesson;
-import com.dennis.saina.ui.LessonData;
+import com.dennis.saina.LessonData;
 import com.dennis.saina.ui.adapters.ExercisesAdapter;
 import com.dennis.saina.ui.adapters.MyAdapter;
 import com.dennis.saina.ui.RecyclerItemClickListener;
