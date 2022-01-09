@@ -30,5 +30,7 @@
     <string name="saina">Saina</string>
     <string name="sign_language_tutor">Sign Language Tutor</string>
     <string name="prev">Prev</string>
+    <string name="warning_message">NB If image is not showing, make sure you have an active internet connection and wait a few seconds</string>
+    <string name="take_picture">Take Picture</string>
 
 </resources>

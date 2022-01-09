@@ -74,9 +74,10 @@ public class ExerciseFragment extends Fragment {
 //            binding.splash.setVisibility(View.GONE);
 //            binding.main.setVisibility(View.VISIBLE);
 
-            Intent intent = new Intent(getContext().getApplicationContext(), ExerciseActivity.class);
+            Intent intent = new Intent(getContext(), ExerciseActivity.class);
+            intent.putExtra("lessonsList", lessonArrayList);
             startActivity(intent);
-            prepareQuestion();
+            //prepareQuestion();
         });
 
 

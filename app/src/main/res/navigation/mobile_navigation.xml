@@ -3,17 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/navigation_numbers">
+    app:startDestination="@id/navigation_exercise">
 
     <fragment
         android:id="@+id/navigation_lessons"
         android:name="com.dennis.saina.ui.Lessons.LessonsFragment"
         android:label="@string/title_lessons"
-        tools:layout="@layout/fragment_lessons">
-        <action
-            android:id="@+id/action_navigation_lessons_to_exercise_view"
-            app:destination="@id/navigation_exercise" />
-    </fragment>
+        tools:layout="@layout/fragment_lessons" />
 
     <fragment
         android:id="@+id/navigation_dashboard"

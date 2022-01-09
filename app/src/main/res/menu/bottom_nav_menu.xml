@@ -2,22 +2,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_alphabet"
-        android:icon="@drawable/ic_baseline_sort_by_alpha_24"
-        android:title="@string/Alphabet" />
+        android:id="@+id/navigation_lessons"
+        android:icon="@drawable/ic_baseline_play_circle_filled_24"
+        android:title="@string/title_lessons" />
     <item
         android:id="@+id/navigation_numbers"
         android:icon="@drawable/ic_baseline_format_list_numbered_24"
         android:title="@string/Numbers" />
     <item
-        android:id="@+id/navigation_lessons"
-        android:icon="@drawable/ic_baseline_play_circle_filled_24"
-        android:title="@string/title_lessons" />
-
-    <item
         android:id="@+id/navigation_exercise"
-        android:icon="@drawable/ic_baseline_run_circle_24"
+        android:icon="@drawable/ic_baseline_flag_24"
         android:title="@string/title_exercise" />
+    <item
+        android:id="@+id/navigation_alphabet"
+        android:icon="@drawable/ic_baseline_sort_by_alpha_24"
+        android:title="@string/Alphabet" />
 
     <item
         android:id="@+id/navigation_realTime"

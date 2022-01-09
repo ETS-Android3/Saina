@@ -1,18 +1,25 @@
 package com.dennis.saina;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.dennis.saina.ui.Lesson;
 import com.dennis.saina.ui.adapters.MyAdapter;
+import com.google.firebase.database.collection.LLRBNode;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -33,32 +40,28 @@ public class ExerciseActivity extends AppCompatActivity {
     RadioGroup questionGroup;
     TextView Name;
     ImageView Image;
-    Button nextBtn, prevBtn;
+
+    TextView questionCount, scoreText, scoreResult;
+
+    Button nextBtn, prevBtn, exitBtn, tryAgain, exitBtn2;
     int[] positions;
     RadioButton firstAnswer, secondAnswer, thirdAnswer;
 
     FirebaseFirestore db;
+    int questionCounter;
+    int score;
+    ConstraintLayout scoreView;
+    CardView main;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise);
-
-        //get data from firebase
-        ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setCancelable(true);
-        progressDialog.setMessage("Fetching Data ...");
-        progressDialog.show();
-
-        Thread thread = new Thread() {
-            public void run() {
-                LessonData.EventChangeListener(ExerciseActivity.this, myAdapter, lessonArrayList, progressDialog);
-            }
-        };
-        thread.start();
-
-
         lessonArrayList = new ArrayList<>();
+        questionCounter = 0;
+        score = 0;
+        lessonArrayList = (ArrayList<Lesson>) getIntent().getSerializableExtra("lessonsList");
+
         names = new ArrayList<>();
         images = new ArrayList<>();
         answeredNumbers = new ArrayList<>();
@@ -70,19 +73,95 @@ public class ExerciseActivity extends AppCompatActivity {
         firstAnswer = findViewById(R.id.firstAnswer);
         secondAnswer = findViewById(R.id.secondAnswer);
         thirdAnswer = findViewById(R.id.thirdAnswer);
+        scoreResult = findViewById(R.id.scoreResult);
+
+        questionCount = findViewById(R.id.questionCount);
+        scoreText = findViewById(R.id.scoreText);
 
         Name = findViewById(R.id.Name);
         nextBtn = findViewById(R.id.nextBtn);
         prevBtn = findViewById(R.id.prevBtn);
+        exitBtn = findViewById(R.id.exitBtn);
+        exitBtn2 = findViewById(R.id.exitBtn2);
+        tryAgain = findViewById(R.id.tryAgainBtn);
         Image = findViewById(R.id.Image);
+
+        main = findViewById(R.id.main);
+        scoreView = findViewById(R.id.scoreView);
+
+        main.setVisibility(View.VISIBLE);
+        scoreView.setVisibility(View.GONE);
+
+
+        exitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ExerciseActivity.super.onBackPressed();
+            }
+        });
+
+        exitBtn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ExerciseActivity.super.onBackPressed();
+            }
+        });
+
+        tryAgain.setOnClickListener(v -> {
+            score = 0;
+            questionCounter = 0;
+            questionCount.setText("Number: " + questionCounter);
+            scoreText.setText("Score: " + score);
+
+            scoreView.setVisibility(View.GONE);
+            main.setVisibility(View.VISIBLE);
+
+
+        });
+        nextBtn.setOnClickListener(v -> {
+            //get correct answer findIndex(positions, 0);
+            int correctRadioPosition = findIndex(positions, 0);
+            Log.i("Correct Radio", "" + correctRadioPosition);
+
+            //get selected answer
+            RadioButton radioButton = findViewById(questionGroup.getCheckedRadioButtonId());
+            int idx = questionGroup.indexOfChild(radioButton);
+
+            Log.i("Received index", " " + idx);
+            //compare the 2
+
+            if (idx == correctRadioPosition) {
+                //if correct add to score count else dont
+                score++;
+
+            }
+            questionCounter++;
+            if (questionCounter <= 10) {
+                //display correct or wrong message update ui
+                questionCount.setText("Number: " + questionCounter);
+                scoreText.setText("Score: " + score);
+                prepareQuestion();
+            } else {
+                //stop Quiz
+                scoreResult.setText("" + score + " /" + "10");
+                if (score < 5) {
+                    scoreResult.setTextColor(Color.RED);
+                } else {
+                    scoreResult.setTextColor(Color.GREEN);
+                }
+                main.setVisibility(View.GONE);
+                scoreView.setVisibility(View.VISIBLE);
+
+            }
+
+
+        });
 
 
 //
         prepareQuestion();
 //
 //
-//
-
 
     }
 
@@ -104,40 +183,39 @@ public class ExerciseActivity extends AppCompatActivity {
         int[] radioButtonAnswers = generateQuestions();
         //here the first one is correct answer
 
-//        answeredNumbers.add(radioButtonAnswers[0]);
-//        question = new Question(
-//                images.get(radioButtonAnswers[0]),
-//                names.get(radioButtonAnswers[0]),
-//                names.get(radioButtonAnswers[1]),
-//                names.get(radioButtonAnswers[2]));
-//
-//
-//
-//        questionsList.add(question);
+        answeredNumbers.add(radioButtonAnswers[0]);
+        question = new Question(
+                images.get(radioButtonAnswers[0]),
+                names.get(radioButtonAnswers[0]),
+                names.get(radioButtonAnswers[1]),
+                names.get(radioButtonAnswers[2]));
 
 
-//        Glide.with(this)
-//                .load(question.getmQuestionImage())
-//                .into(Image);
-
-//        for (int i = 0; i < 3; i++) {
-//            if (positions[0] == i) {
-//                firstAnswer.setText("" + names.get(radioButtonAnswers[i]));
-//            } else if (positions[1] == i) {
-//                secondAnswer.setText("" + names.get(radioButtonAnswers[i]));
-//            } else if (positions[2] == i) {
-//                thirdAnswer.setText("" + names.get(radioButtonAnswers[i]));
-//            }
-//        }
+        questionsList.add(question);
 
 
-//        Log.i("MSGt", "" + question.getmQuestionAnswer());
+        Glide.with(this)
+                .load(question.getmQuestionImage())
+                .into(Image);
+
+        for (int i = 0; i < 3; i++) {
+            if (positions[0] == i) {
+                firstAnswer.setText("" + names.get(radioButtonAnswers[i]));
+            } else if (positions[1] == i) {
+                secondAnswer.setText("" + names.get(radioButtonAnswers[i]));
+            } else if (positions[2] == i) {
+                thirdAnswer.setText("" + names.get(radioButtonAnswers[i]));
+            }
+        }
 
 
-        //to avoid repetition remove correct answers used
-//
-//        names.remove(names.get(radioButtonAnswers[0]));
-//        images.remove(images.get(radioButtonAnswers[0]));
+        Log.i("MSGt", "" + question.getmQuestionAnswer());
+
+
+        // to avoid repetition remove correct answers used
+
+        names.remove(names.get(radioButtonAnswers[0]));
+        images.remove(images.get(radioButtonAnswers[0]));
 
         //this returns position of correct answer
         return findIndex(positions, 0);
