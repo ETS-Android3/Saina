@@ -93,7 +93,6 @@ class DetectActivity : AppCompatActivity() {
                 val max = getMax(outputFeature0.floatArray)
 
                 textView.setText(townList[max])
-
 // Releases model resources if no longer used.
                 model.close()
             }

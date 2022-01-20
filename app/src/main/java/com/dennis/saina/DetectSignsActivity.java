@@ -1,12 +1,13 @@
 package com.dennis.saina;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Paint;
 import android.media.ThumbnailUtils;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,7 +17,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.dennis.saina.ml.AsModel;
+import com.dennis.saina.ml.AutoModel0Model;
 import com.dennis.saina.ml.ModelUnquant;
+
 
 import org.tensorflow.lite.DataType;
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
@@ -24,6 +31,8 @@ import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+
+// Java program to convert a color image to gray scale
 
 public class DetectSignsActivity extends AppCompatActivity {
 
@@ -65,66 +74,98 @@ public class DetectSignsActivity extends AppCompatActivity {
             Bitmap image = (Bitmap) data.getExtras().get("data");
             int dimension = Math.min(image.getWidth(), image.getHeight());
             image = ThumbnailUtils.extractThumbnail(image, dimension, dimension);
+
+            ColorMatrix matrix = new ColorMatrix();
+            matrix.setSaturation(0);
+
+            ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+            imageView.setColorFilter(filter);
+
             imageView.setImageBitmap(image);
 
             image = Bitmap.createScaledBitmap(image, imageSize, imageSize, false);
+
+            //convert to grayscale
+            image=toGrayscale(image);
+
+
             classifyImage(image);
 
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+    public Bitmap toGrayscale(Bitmap bmpOriginal)
+    {
+        int width, height;
+        height = bmpOriginal.getHeight();
+        width = bmpOriginal.getWidth();
+
+        Bitmap bmpGrayscale = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(bmpGrayscale);
+        Paint paint = new Paint();
+        ColorMatrix cm = new ColorMatrix();
+        cm.setSaturation(0);
+        ColorMatrixColorFilter f = new ColorMatrixColorFilter(cm);
+        paint.setColorFilter(f);
+        c.drawBitmap(bmpOriginal, 0, 0, paint);
+        return bmpGrayscale;
+    }
 
     private void classifyImage(Bitmap image) {
-        try {
-            ModelUnquant model = ModelUnquant.newInstance(getApplicationContext());
+            try {
+                AsModel model = AsModel.newInstance(getApplicationContext());
+                // Creates inputs for reference.
+                TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 224, 224, 3}, DataType.FLOAT32);
+                ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4 * imageSize * imageSize * 3);
+                byteBuffer.order(ByteOrder.nativeOrder());
 
-            // Creates inputs for reference.
-            TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 224, 224, 3}, DataType.FLOAT32);
-            ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4 * imageSize * imageSize * 3);
-            byteBuffer.order(ByteOrder.nativeOrder());
-
-            int[] intValues = new int[imageSize * imageSize];
-            image.getPixels(intValues, 0, image.getWidth(), 0, 0, image.getWidth(), image.getHeight());
-            int pixel = 0;
-            for (int i = 0; i < imageSize; i++) {
-                for (int j = 0; j < imageSize; j++) {
-                    int val = intValues[pixel++];
-                    byteBuffer.putFloat(((val >> 16) & 0xFF) * (1.f / 255.f));
-                    byteBuffer.putFloat(((val >> 8) & 0xFF) * (1.f / 255.f));
-                    byteBuffer.putFloat((val & 0xFF) * (1.f / 255.f));
+                int[] intValues = new int[imageSize * imageSize];
+                image.getPixels(intValues, 0, image.getWidth(), 0, 0, image.getWidth(), image.getHeight());
+                int pixel = 0;
+                for (int i = 0; i < imageSize; i++) {
+                    for (int j = 0; j < imageSize; j++) {
+                        int val = intValues[pixel++];
+                        byteBuffer.putFloat(((val >> 16) & 0xFF) * (1.f / 255.f));
+                        byteBuffer.putFloat(((val >> 8) & 0xFF) * (1.f / 255.f));
+                        byteBuffer.putFloat((val & 0xFF) * (1.f / 255.f));
+                    }
                 }
-            }
 
-            inputFeature0.loadBuffer(byteBuffer);
+                inputFeature0.loadBuffer(byteBuffer);
 
-            // Runs model inference and gets result.
-            ModelUnquant.Outputs outputs = model.process(inputFeature0);
-            TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
+                // Runs model inference and gets result.
+                AsModel.Outputs outputs = model.process(inputFeature0);
+                TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
 
-            float[] confidences = outputFeature0.getFloatArray();
-            int maxPos = 0;
-            float maxConfidence = 0;
-            for (int i = 0; i < confidences.length; i++) {
-                if (confidences[i] > maxConfidence) {
-                    maxConfidence = confidences[i];
-                    maxPos = i;
+                float[] confidences = outputFeature0.getFloatArray();
+                int maxPos = 0;
+                float maxConfidence = 0;
+                for (int i = 0; i < confidences.length; i++) {
+                    if (confidences[i] > maxConfidence) {
+                        maxConfidence = confidences[i];
+                        maxPos = i;
+                    }
                 }
+                String classes[] = {"A","B","C","D","E","F","G","H","I","J",
+                        "K","L", "M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z",
+                        "Delete","Nothing","Space"};
+
+                result.setText(classes[maxPos]);
+
+                String s = "";
+                for (int i = 0; i < classes.length; i++) {
+                    s += String.format("%s: %.1f%%\n", classes[i], confidences[i] * 100);
+                }
+
+                confidence.setText(s);
+
+                // Releases model resources if no longer used.
+                model.close();
+            } catch (IOException e) {
+                // TODO Handle the exception
             }
-            String classes[] = {"0", "1", "2", "3", "4", "5", "8"};
 
-            result.setText(classes[maxPos]);
 
-            String s = "";
-            for (int i = 0; i < classes.length; i++) {
-                s += String.format("%s: %.1f%%\n", classes[i], confidences[i] * 100);
-            }
 
-            confidence.setText(s);
-
-            // Releases model resources if no longer used.
-            model.close();
-        } catch (IOException e) {
-            // TODO Handle the exception
-        }
     }
 }

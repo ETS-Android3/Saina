@@ -58,6 +58,7 @@ public class LessonsFragment extends Fragment {
         binding.dataList.setAdapter(myAdapter);
 
 
+
         binding.dataList.addOnItemTouchListener(
                 new RecyclerItemClickListener(getContext(), binding.dataList, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override

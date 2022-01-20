@@ -18,8 +18,8 @@ import com.dennis.saina.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-
     public int a;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +32,8 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_numbers,
-                R.id.navigation_alphabet,
-                R.id.navigation_lessons,
-                R.id.navigation_exercise,
-                R.id.navigation_realTime)
+
+        )
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
