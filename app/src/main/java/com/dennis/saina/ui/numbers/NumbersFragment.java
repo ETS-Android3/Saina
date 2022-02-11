@@ -35,11 +35,14 @@ public class NumbersFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), DetectSignsActivity.class);
-                //intent.putExtra("lessonsList",lessonArrayList);
                 startActivity(intent);
             }
         });
 
+        binding.hintText.setText(
+                "Make sure your camera is close when taking the picture \n\n" +
+                "Perform the detections on a plain background\n\n" +
+                "Try mimicking the signs as shown in the sign language chart\n\n");
         //Log.i("hey "," "+hey);
         return binding.getRoot();
     }

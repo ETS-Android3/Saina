@@ -49,7 +49,11 @@ public class LessonData {
 
                                 adapter.notifyDataSetChanged();
                                 if (progressDialog.isShowing())
+                                {
                                     progressDialog.dismiss();
+                                    Log.i("Firebase","Firebase connection successful");
+                                }
+
                             }
                         });
             }

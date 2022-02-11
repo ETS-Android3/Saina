@@ -47,37 +47,539 @@
                 android:contentDescription="@string/lessonimage"
                 app:srcCompat="@drawable/googleg_standard_color_18" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|center_horizontal|center_vertical"
-                android:layout_marginTop="20dp"
-                android:background="#FFFFFF"
-                android:gravity="center|center_horizontal|center_vertical"
-                android:orientation="horizontal">
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center|center_horizontal|center_vertical"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                android:background="#FFFFFF"-->
+<!--                android:gravity="center|center_horizontal|center_vertical"-->
+<!--                android:orientation="horizontal">-->
 
-                <ImageButton
-                    android:id="@+id/prevBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:contentDescription="@string/previous"
-                    android:src="@drawable/ic_baseline_skip_previous_24"
-                    android:textAlignment="center"
-                    android:textDirection="inherit" />
-
-                <ImageButton
-                    android:id="@+id/nextBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:contentDescription="@string/next"
-                    android:src="@drawable/ic_baseline_skip_next_24"
-                    android:textAlignment="center"
-                    android:textDirection="inherit" />
+<!--                <ImageButton-->
+<!--                    android:id="@+id/prevBtn"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="50dp"-->
+<!--                    android:layout_weight="1"-->
 
 
-            </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!--                    android:contentDescription="@string/previous"-->
+<!--                    android:src="@drawable/ic_baseline_skip_previous_24"-->
+<!--                    android:textAlignment="center"-->
+<!--                    android:textDirection="inherit" />-->
+
+<!--                <ImageButton-->
+<!--                    android:id="@+id/nextBtn"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="50dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:contentDescription="@string/next"-->
+<!--                    android:src="@drawable/ic_baseline_skip_next_24"-->
+<!--                    android:textAlignment="center"-->
+<!--                    android:textDirection="inherit" />-->
+
+
+<!--            </LinearLayout>-->
 
         </LinearLayout>
 

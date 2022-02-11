@@ -8,6 +8,7 @@
     <string name="word_text">Word Text</string>
     <string name="previous">previous</string>
     <string name="next">next</string>
+    <string name="home">Home</string>
     <string name="lessonimage">lessonImage</string>
     <string name="exercise_splash_text">Start Exercises</string>
     <string name="exercise_splash_start_button_text">Hell Yeah!</string>
@@ -32,5 +33,6 @@
     <string name="prev">Prev</string>
     <string name="warning_message">NB If image is not showing, make sure you have an active internet connection and wait a few seconds</string>
     <string name="take_picture">Take Picture</string>
+    <string name="start">Start</string>
 
 </resources>

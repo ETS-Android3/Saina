@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
@@ -21,8 +22,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.dennis.saina.ml.AsModel;
-import com.dennis.saina.ml.AutoModel0Model;
-import com.dennis.saina.ml.ModelUnquant;
 
 
 import org.tensorflow.lite.DataType;
@@ -31,16 +30,21 @@ import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.Arrays;
 
 // Java program to convert a color image to gray scale
 
 public class DetectSignsActivity extends AppCompatActivity {
 
-    TextView result, confidence;
+    TextView result, confidence,classified;
     ImageView imageView;
-    Button picture;
+    Button picture,signsBtn;
     int imageSize = 224;
 
+    private  int i=0;
+    private String[] classes=new String[]{
+            "A","B","C"
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +54,13 @@ public class DetectSignsActivity extends AppCompatActivity {
         confidence = findViewById(R.id.confidence);
         imageView = findViewById(R.id.imageView);
         picture = findViewById(R.id.button);
+        //signsBtn=findViewById(R.id.signsBtn);
+        classified=findViewById(R.id.classified);
+
+        classified.setText("Go Predict:  "+classes[i]);
+
+
+
 
         picture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +77,29 @@ public class DetectSignsActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void freeDetect(int requestCode, int resultCode, @Nullable Intent data){
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            Bitmap image = (Bitmap) data.getExtras().get("data");
+            int dimension = Math.min(image.getWidth(), image.getHeight());
+            image = ThumbnailUtils.extractThumbnail(image, dimension, dimension);
+
+            ColorMatrix matrix = new ColorMatrix();
+            matrix.setSaturation(0);
+
+            ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+            imageView.setColorFilter(filter);
+            imageView.setImageBitmap(image);
+
+            image = Bitmap.createScaledBitmap(image, imageSize, imageSize, false);
+
+            //convert to grayscale
+            image=toGrayscale(image);
+
+            classifyImage(image);
+
+        }
     }
 
     @Override
@@ -86,10 +120,9 @@ public class DetectSignsActivity extends AppCompatActivity {
             image = Bitmap.createScaledBitmap(image, imageSize, imageSize, false);
 
             //convert to grayscale
-            image=toGrayscale(image);
+           image=toGrayscale(image);
 
-
-            classifyImage(image);
+           classifyImage(image);
 
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -110,6 +143,8 @@ public class DetectSignsActivity extends AppCompatActivity {
         c.drawBitmap(bmpOriginal, 0, 0, paint);
         return bmpGrayscale;
     }
+
+
 
     private void classifyImage(Bitmap image) {
             try {
@@ -148,24 +183,49 @@ public class DetectSignsActivity extends AppCompatActivity {
                 }
                 String classes[] = {"A","B","C","D","E","F","G","H","I","J",
                         "K","L", "M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z",
-                        "Delete","Nothing","Space"};
+                        "Delete","Nothing","Sp5t ace"};
 
-                result.setText(classes[maxPos]);
+                String zslClasses[] = {"A","B","C","E","F","I","J","M","N",
+                        "O","R","S","T","U","V","W","Y",
+                        "Delete","Nothing","Sp5t ace"};
+
+                doPredictions(classes,zslClasses,maxPos);
+                if(classes[maxPos]==classes[i]){
+
+                }
+               // result.setText(classes[maxPos]);
 
                 String s = "";
                 for (int i = 0; i < classes.length; i++) {
                     s += String.format("%s: %.1f%%\n", classes[i], confidences[i] * 100);
                 }
 
-                confidence.setText(s);
+                //confidence.setText(s);
 
                 // Releases model resources if no longer used.
                 model.close();
             } catch (IOException e) {
                 // TODO Handle the exception
             }
-
-
-
     }
+
+    private void doPredictions(String[] classes, String[] zslClasses, int maxPos) {
+//        if(!Arrays.asList(zslClasses).contains(classes[maxPos]))
+//        {
+//            classified.setText("Loading...  ");
+//            doPredictions(classes,zslClasses,++maxPos);
+//        }
+
+        if(classes[maxPos]==zslClasses[i]){
+            result.setText("Correct");
+            result.setTextColor(Color.GREEN);
+            classified.setText("Now Predict:  "+classes[i+1]);
+            i++;
+        }else{
+            result.setText("Wrong");
+            result.setTextColor(Color.RED);
+            classified.setText("Try again for:  "+zslClasses[i]);
+        }
+    }
+
 }

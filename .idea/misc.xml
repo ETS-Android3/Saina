@@ -3,10 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Dennis/AndroidStudioProjects/Saina/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.14375" />
         <entry key="..\:/Users/Dennis/AndroidStudioProjects/Saina/app/src/main/res/layout/activity_detect.xml" value="0.20260416666666667" />
-        <entry key="..\:/Users/Dennis/AndroidStudioProjects/Saina/app/src/main/res/layout/activity_detect_signs.xml" value="0.20260416666666667" />
+        <entry key="..\:/Users/Dennis/AndroidStudioProjects/Saina/app/src/main/res/layout/activity_detect_signs.xml" value="0.176" />
         <entry key="..\:/Users/Dennis/AndroidStudioProjects/Saina/app/src/main/res/layout/activity_exercise.xml" value="0.20260416666666667" />
+        <entry key="..\:/Users/Dennis/AndroidStudioProjects/Saina/app/src/main/res/layout/activity_main.xml" value="0.1265625" />
+        <entry key="..\:/Users/Dennis/AndroidStudioProjects/Saina/app/src/main/res/layout/fragment_alphabet.xml" value="0.176" />
+        <entry key="..\:/Users/Dennis/AndroidStudioProjects/Saina/app/src/main/res/layout/fragment_dashboard.xml" value="0.264" />
+        <entry key="..\:/Users/Dennis/AndroidStudioProjects/Saina/app/src/main/res/layout/fragment_home.xml" value="0.2" />
+        <entry key="..\:/Users/Dennis/AndroidStudioProjects/Saina/app/src/main/res/layout/fragment_lessons.xml" value="0.264" />
         <entry key="..\:/Users/Dennis/AndroidStudioProjects/Saina/app/src/main/res/layout/fragment_numbers.xml" value="0.20260416666666667" />
+        <entry key="..\:/Users/Dennis/AndroidStudioProjects/Saina/app/src/main/res/layout/fragment_video.xml" value="0.152" />
+        <entry key="..\:/Users/Dennis/AndroidStudioProjects/Saina/app/src/main/res/menu/bottom_nav_menu.xml" value="0.264" />
       </map>
     </option>
   </component>

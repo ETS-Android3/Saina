@@ -8,18 +8,33 @@
 
     <ImageView
         android:id="@+id/alphabetImg"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="99dp"
+        android:layout_marginTop="60dp"
+        android:contentDescription="@string/image_of_zimbabwe_sign_language_alphabet"
+        android:foregroundGravity="center_vertical|center|center_horizontal"
+        android:src="@drawable/alphabet"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:src="@drawable/alphabet"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="See Number Alphabet"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/image_of_zimbabwe_sign_language_alphabet" />
+        app:layout_constraintTop_toBottomOf="@+id/alphabetImg" />
+
+    <Button
+        android:id="@+id/btn2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:text="Try it yourself"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/alphabetImg" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
